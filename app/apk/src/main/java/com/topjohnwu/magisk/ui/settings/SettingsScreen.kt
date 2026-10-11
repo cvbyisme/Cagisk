@@ -49,6 +49,7 @@ import com.topjohnwu.magisk.ui.component.SettingsDropdown
 import com.topjohnwu.magisk.ui.component.SettingsSwitch
 import com.topjohnwu.magisk.ui.component.SmallTitle
 import com.topjohnwu.magisk.ui.component.verticalScrollbar
+import com.topjohnwu.magisk.ui.theme.ThemeSettingsDialog
 import com.topjohnwu.magisk.core.R as CoreR
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -175,6 +176,25 @@ private fun CustomizationSection(
                 Config.colorMode = newMode.value
                 ThemeState.colorMode = newMode.value
             }
+        )
+
+        HorizontalDivider(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+        )
+
+        // Theme customization: wallpaper, accent color and UI opacity
+        var showThemeDialog by remember { mutableStateOf(false) }
+        if (showThemeDialog) {
+            ThemeSettingsDialog(onDismiss = { showThemeDialog = false })
+        }
+        SettingsArrow(
+            title = stringResource(CoreR.string.theme_customization),
+            summary = stringResource(
+                if (ThemeState.config.hasWallpaper) CoreR.string.theme_summary_enabled
+                else CoreR.string.theme_summary_disabled
+            ),
+            onClick = { showThemeDialog = true }
         )
 
         if (isRunningAsStub && ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {

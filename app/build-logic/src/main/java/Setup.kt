@@ -276,10 +276,12 @@ fun Project.setupMainApk() {
     setupAppCommon()
 
     androidApp {
+        // Keep the source namespace (R class package) upstream, only the
+        // installed application id changes so this build coexists with Magisk.
         namespace = "com.topjohnwu.magisk"
 
         defaultConfig {
-            applicationId = "com.topjohnwu.magisk"
+            applicationId = "com.cvby.cagisk"
             vectorDrawables.useSupportLibrary = true
             versionName = Config.version
             versionCode = Config.versionCode

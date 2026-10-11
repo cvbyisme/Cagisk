@@ -247,4 +247,29 @@
     <string name="app_not_found">No app found to handle this action</string>
     <string name="reboot_apply_change">Reboot to apply changes</string>
     <string name="restore_app_confirmation">This will restore the hidden app back to the original app. Do you really want to do this?</string>
+
+    <!-- Theme customization -->
+    <string name="theme_customization">Theme customization</string>
+    <string name="theme_summary_enabled">Wallpaper enabled</string>
+    <string name="theme_summary_disabled">Wallpaper disabled</string>
+    <string name="theme_wallpaper_enable">Enable wallpaper</string>
+    <string name="theme_wallpaper_enable_summary">Show a custom image behind the interface</string>
+    <string name="theme_wallpaper_pick">Choose image</string>
+    <string name="theme_wallpaper_none">Nothing selected</string>
+    <string name="theme_wallpaper_remove">Remove wallpaper</string>
+    <string name="theme_wallpaper_failed">Failed to import the selected image</string>
+    <string name="theme_wallpaper_blur">Wallpaper blur</string>
+    <string name="theme_blur_unsupported">Android 12+</string>
+    <string name="theme_wallpaper_scrim">Wallpaper scrim</string>
+    <string name="theme_accent_color">Accent color</string>
+    <string name="theme_accent_default_hint">First swatch keeps the default Magisk accent</string>
+    <string name="theme_accent_from_wallpaper">Use wallpaper color</string>
+    <string name="theme_accent_from_wallpaper_summary">Derive the accent from the wallpaper image</string>
+    <string name="theme_opacity">Interface opacity</string>
+    <string name="theme_background_alpha">Background opacity</string>
+    <string name="theme_surface_alpha">Surface opacity</string>
+    <string name="theme_opacity_hint">Opacity only applies while a wallpaper is shown</string>
+    <string name="theme_alpha_opaque">Opaque</string>
+    <string name="theme_alpha_balanced">Balanced</string>
+    <string name="theme_alpha_translucent">Translucent</string>
 </resources>

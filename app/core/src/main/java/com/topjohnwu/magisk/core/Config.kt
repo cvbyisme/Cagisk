@@ -43,6 +43,16 @@ object Config : PreferenceConfig, DBConfig {
         const val DOH = "doh"
         const val RAND_NAME = "rand_name"
 
+        // theme customization
+        const val WALLPAPER_ENABLED = "theme_wallpaper_enabled"
+        const val WALLPAPER_PATH = "theme_wallpaper_path"
+        const val WALLPAPER_BLUR = "theme_wallpaper_blur"
+        const val WALLPAPER_SCRIM = "theme_wallpaper_scrim"
+        const val BACKGROUND_ALPHA = "theme_background_alpha"
+        const val SURFACE_ALPHA = "theme_surface_alpha"
+        const val SEED_COLOR = "theme_seed_color"
+        const val WALLPAPER_SEED = "theme_wallpaper_seed"
+
         val NO_MIGRATION = setOf(ASKED_HOME)
     }
 
@@ -105,6 +115,16 @@ object Config : PreferenceConfig, DBConfig {
     var customChannelUrl by preference(Key.CUSTOM_CHANNEL, "")
     var downloadDir by preference(Key.DOWNLOAD_DIR, "")
     var randName by preference(Key.RAND_NAME, true)
+
+    // Theme customization: wallpaper, custom accent seed and UI opacity.
+    var wallpaperEnabled by preference(Key.WALLPAPER_ENABLED, false)
+    var wallpaperPath by preference(Key.WALLPAPER_PATH, "")
+    var wallpaperBlur by preference(Key.WALLPAPER_BLUR, 8f)
+    var wallpaperScrim by preference(Key.WALLPAPER_SCRIM, 0.35f)
+    var themeBackgroundAlpha by preference(Key.BACKGROUND_ALPHA, 0.45f)
+    var themeSurfaceAlpha by preference(Key.SURFACE_ALPHA, 0.85f)
+    var themeSeedColor by preference(Key.SEED_COLOR, 0)
+    var themeWallpaperSeed by preference(Key.WALLPAPER_SEED, false)
     var checkUpdate
         get() = checkUpdatePrefs
         set(value) {

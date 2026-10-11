@@ -259,4 +259,29 @@
     <string name="app_not_found">找不到可处理此操作的应用</string>
     <string name="reboot_apply_change">重启后生效</string>
     <string name="restore_app_confirmation">即将把隐藏的 Magisk 应用恢复回原始应用，是否继续？</string>
+
+    <!-- Theme customization -->
+    <string name="theme_customization">主题自定义</string>
+    <string name="theme_summary_enabled">已启用壁纸</string>
+    <string name="theme_summary_disabled">未启用壁纸</string>
+    <string name="theme_wallpaper_enable">启用壁纸</string>
+    <string name="theme_wallpaper_enable_summary">在界面底层显示自定义图片</string>
+    <string name="theme_wallpaper_pick">选择图片</string>
+    <string name="theme_wallpaper_none">尚未选择</string>
+    <string name="theme_wallpaper_remove">移除壁纸</string>
+    <string name="theme_wallpaper_failed">导入所选图片失败</string>
+    <string name="theme_wallpaper_blur">壁纸模糊</string>
+    <string name="theme_blur_unsupported">需 Android 12+</string>
+    <string name="theme_wallpaper_scrim">壁纸遮罩</string>
+    <string name="theme_accent_color">主色</string>
+    <string name="theme_accent_default_hint">第一个色块为 Magisk 默认主色</string>
+    <string name="theme_accent_from_wallpaper">取色自壁纸</string>
+    <string name="theme_accent_from_wallpaper_summary">从壁纸图片中提取主色</string>
+    <string name="theme_opacity">界面透明度</string>
+    <string name="theme_background_alpha">背景透明度</string>
+    <string name="theme_surface_alpha">面板透明度</string>
+    <string name="theme_opacity_hint">透明度仅在显示壁纸时生效</string>
+    <string name="theme_alpha_opaque">不透明</string>
+    <string name="theme_alpha_balanced">均衡</string>
+    <string name="theme_alpha_translucent">通透</string>
 </resources>

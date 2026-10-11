@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.os.Build
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
@@ -15,7 +17,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -31,6 +35,11 @@ import com.google.android.material.color.utilities.MaterialDynamicColors
 import com.google.android.material.color.utilities.SchemeTonalSpot
 import com.topjohnwu.magisk.core.Config
 import com.topjohnwu.magisk.core.model.ColorMode
+import com.topjohnwu.magisk.ui.theme.ThemeConfig
+import com.topjohnwu.magisk.ui.theme.WallpaperBackdrop
+import com.topjohnwu.magisk.ui.theme.rememberWallpaper
+import com.topjohnwu.magisk.ui.theme.resolveSeed
+import com.topjohnwu.magisk.ui.theme.withWallpaperAlpha
 
 @SuppressLint("RestrictedApi")
 fun dynamicColorScheme(
@@ -98,6 +107,25 @@ val MagiskAccentColor = Color(0xFF00AF9C)
 
 object ThemeState {
     var colorMode by mutableIntStateOf(Config.colorMode)
+
+    /** Current theme customization, also used for live preview while dragging. */
+    var config by mutableStateOf(ThemeConfig.load())
+
+    /** Update the in-memory theme only: used while a slider is being dragged. */
+    fun preview(updated: ThemeConfig) {
+        config = updated
+    }
+
+    /** Update and persist the theme. */
+    fun update(updated: ThemeConfig) {
+        config = updated
+        ThemeConfig.save(updated)
+    }
+
+    /** Persist whatever is currently previewed (slider released). */
+    fun commit() {
+        ThemeConfig.save(config)
+    }
 }
 
 val MagiskShapes = Shapes(
@@ -187,15 +215,27 @@ fun MagiskTheme(
     val isDark = isSystemInDarkTheme()
     val mode = ColorMode.fromValue(ThemeState.colorMode)
     val context = LocalContext.current
+    val config = ThemeState.config
 
     val isDarkTheme = mode.isDark(isDark)
-    val useDynamicColor = mode.isMonet && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+    val wallpaper = rememberWallpaper(config)
+    val showWallpaper = config.hasWallpaper && wallpaper.bitmap != null
 
-    val colorScheme = when {
+    // An explicitly chosen accent (or one derived from the wallpaper) takes over
+    // from both the Magisk default and the Android 12+ system Monet colors.
+    val customSeed = resolveSeed(config, wallpaper.seed)
+    val useDynamicColor = customSeed == null &&
+        mode.isMonet && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+    val seed = customSeed ?: MagiskAccentColor
+
+    var colorScheme = when {
         useDynamicColor && isDarkTheme -> dynamicDarkColorScheme(context)
         useDynamicColor && !isDarkTheme -> dynamicLightColorScheme(context)
-        isDarkTheme -> dynamicColorScheme(MagiskAccentColor, isDark = true)
-        else -> dynamicColorScheme(MagiskAccentColor, isDark = false)
+        isDarkTheme -> dynamicColorScheme(seed, isDark = true)
+        else -> dynamicColorScheme(seed, isDark = false)
+    }
+    if (showWallpaper) {
+        colorScheme = colorScheme.withWallpaperAlpha(config)
     }
 
     val activity = LocalActivity.current
@@ -213,6 +253,18 @@ fun MagiskTheme(
         colorScheme = colorScheme,
         shapes = MagiskShapes,
         typography = MagiskTypography,
-        content = content
-    )
+    ) {
+        // The backdrop is always part of the tree (it draws nothing when no
+        // wallpaper is active) so toggling the wallpaper never rebuilds the
+        // content subtree, which would drop open dialog state.
+        Box(modifier = Modifier.fillMaxSize()) {
+            WallpaperBackdrop(
+                bitmap = wallpaper.bitmap,
+                config = config,
+                isDark = isDarkTheme,
+                enabled = showWallpaper,
+            )
+            content()
+        }
+    }
 }
