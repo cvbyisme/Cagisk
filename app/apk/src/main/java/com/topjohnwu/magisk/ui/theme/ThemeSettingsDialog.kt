@@ -31,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.topjohnwu.magisk.core.ktx.toast
 import com.topjohnwu.magisk.ui.MagiskAccentColor
+import com.topjohnwu.magisk.ui.ThemeState
 import com.topjohnwu.magisk.ui.component.MagiskDialog
 import com.topjohnwu.magisk.ui.component.SettingsArrow
 import com.topjohnwu.magisk.ui.component.SettingsSwitch
