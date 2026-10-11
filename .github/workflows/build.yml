@@ -3,6 +3,12 @@ name: Cagisk Build
 on:
   push:
     branches: [master]
+    paths:
+      - "app/**"
+      - "native/**"
+      - "build.py"
+      - "scripts/**"
+      - ".github/**"
   workflow_dispatch:
 
 jobs:

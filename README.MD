@@ -1,58 +1,104 @@
-![](docs/images/logo.png)
+# Cagisk
 
-[![Downloads](https://img.shields.io/badge/dynamic/json?color=green&label=Downloads&query=totalString&url=https%3A%2F%2Fraw.githubusercontent.com%2Ftopjohnwu%2Fmagisk-files%2Fcount%2Fcount.json&cacheSeconds=1800)](https://raw.githubusercontent.com/topjohnwu/magisk-files/count/count.json)
+[![Build](https://github.com/cvbyisme/Magisk/actions/workflows/build.yml/badge.svg)](https://github.com/cvbyisme/Magisk/actions/workflows/build.yml)
 
-#### This is not an officially supported Google product
+Cagisk is a **themed build of the Magisk manager app**: same root solution, same
+modules, same Zygisk — with a manager you actually enjoy looking at.
 
-## Introduction
+It is an unofficial fork of [Magisk](https://github.com/topjohnwu/Magisk) by
+John Wu, and it installs as `com.cvby.cagisk`.
 
-Magisk is a suite of open source software for customizing Android, supporting devices higher than Android 6.0.<br>
-Some highlight features:
+#### This is not an officially supported Google Product
 
-- **MagiskSU**: Provide root access for applications
-- **Magisk Modules**: Modify read-only partitions by installing modules
-- **MagiskBoot**: The most complete tool for unpacking and repacking Android boot images
-- **Zygisk**: Run code in every Android applications' processes
+## What is different
 
-## Downloads
+- **Wallpaper** — pick any image, keep it as the backdrop of the whole app,
+  with a blur slider (Android 12+) and a legibility scrim.
+- **Custom accent** — choose one of the built-in swatches or let Cagisk derive
+  the accent from your wallpaper. An explicit accent overrides the Android 12+
+  system (Monet) palette so the color you pick is the color you get.
+- **Interface opacity** — background and surface opacity sliders with
+  *Opaque / Balanced / Translucent* presets, so dialogs, sheets, cards and the
+  navigation bar stay consistent with the rest of the UI.
+- **Own identity** — the app is renamed, re-iconed and moved to
+  `com.cvby.cagisk`, so it can sit next to the official Magisk app.
 
-[Github](https://github.com/topjohnwu/Magisk/releases) is the only source where you can get official Magisk information and downloads.
+No third party libraries were added for any of this: the wallpaper is decoded
+with the framework decoder and the accent is extracted with the Material color
+utilities the app already ships.
 
-## Useful Links
+## Install
 
-- [Installation Instruction](https://topjohnwu.github.io/Magisk/install.html)
-- [Building and Development](https://topjohnwu.github.io/Magisk/build.html)
-- [Magisk Documentation](https://topjohnwu.github.io/Magisk/)
-- [Zygisk module sample](https://github.com/topjohnwu/zygisk-module-sample)
+1. Grab the APK from the latest successful
+   [Actions run](https://github.com/cvbyisme/Magisk/actions/workflows/build.yml)
+   (artifact `cagisk-apk-<sha>`), or build it yourself (see below).
+2. Install it. CI artifacts are **debug signed**, so they cannot update an
+   official Magisk install — Cagisk is a separate package (`com.cvby.cagisk`)
+   and is meant to be used on its own.
+3. Open Cagisk and install/update Magisk from inside the app. Use the binaries
+   that ship with this fork: `magiskd` looks up the manager app by package
+   name, so the Cagisk app and the Cagisk binaries belong together.
 
-## Bug Reports
+> Do not run the official Magisk app and Cagisk against the same installation at
+> the same time — each expects to be the manager of the daemon it was built for.
 
-**Only bug reports from Debug builds will be accepted.**
+## Theme customization
 
-For installation issues, upload both boot image and install logs.<br>
-For Magisk issues, upload boot logcat or dmesg.<br>
-For Magisk app crashes, record and upload the logcat when the crash occurs.
+Settings → *Customization* → **Theme customization**.
 
-## Translation Contributions
+| Setting | What it does |
+| --- | --- |
+| Enable wallpaper | Shows the picked image behind the interface |
+| Choose image | Imports an image into private app storage (nothing else can read it) |
+| Wallpaper blur | 0–40 dp, Android 12 and above |
+| Wallpaper scrim | Darkens/lightens the wallpaper so text stays readable |
+| Accent color | Eight swatches; the first one keeps the default Magisk accent |
+| Use wallpaper color | Derives the accent from the image (most chromatic hue wins) |
+| Background / Surface opacity | Two sliders plus three presets; only active while a wallpaper is shown |
 
-Default string resources for the Magisk app and its stub APK are located here:
+Values update live while you drag and are persisted when you let go.
 
-- `app/core/src/main/res/values/strings.xml`
-- `app/stub-res/src/main/res/values/strings.xml`
+## Build
 
-Translate each and place them in the respective locations (`[module]/src/main/res/values-[lang]/strings.xml`).
+Requirements are the same as upstream Magisk: JDK 25, the Android SDK/NDK
+managed by `build.py`, Python 3 and the Rust toolchain.
+
+```sh
+# Native binaries + manager app (arm64 only via the CI config)
+python build.py -v -c .github/ci.prop native
+python build.py -v -c .github/ci.prop app
+```
+
+Outputs land in `out/` (`app-debug.apk`, `stub-debug.apk`). The bundled CI
+workflow builds exactly this on every push that touches the app, the native
+code or the build scripts.
+
+## 中文说明
+
+Cagisk 是 **Magisk 管理器应用的主题增强版**：root 方案、模块、Zygisk 全部照旧，
+但界面终于好看了。
+
+- **壁纸**：任意图片作全局底图，可调模糊（Android 12+）与遮罩，保证文字可读。
+- **主色**：内置 8 个色块，或直接从壁纸取色；选了主色就覆盖 Android 12+ 的系统取色。
+- **界面透明度**：背景与面板两条滑块 + 不透明/均衡/通透预设，对话框、卡片、导航栏
+  一起变透明，不会出现「有的透有的不透」。
+- **独立身份**：改名、换图标、包名换成 `com.cvby.cagisk`，可与官方 Magisk 共存。
+
+安装：到 [Actions](https://github.com/cvbyisme/Magisk/actions/workflows/build.yml)
+下载最新成功构建的 `cagisk-apk-<sha>` 产物安装即可（debug 签名，属独立版本）。
+请配合本 fork 自带的 Magisk 二进制使用——`magiskd` 是按包名寻找管理器应用的。
+
+零新增第三方依赖：壁纸用系统解码器，取色复用应用本来就带的 Material 颜色工具。
+
+## Credits
+
+- [Magisk](https://github.com/topjohnwu/Magisk) by John Wu — the upstream
+  project this fork is based on. All the hard parts are his.
+- The theme layer (`app/apk/src/main/java/com/topjohnwu/magisk/ui/theme`) is
+  what this fork adds.
 
 ## License
 
-    Magisk, including all git submodules are free software:
-    you can redistribute it and/or modify it under the terms of the
-    GNU General Public License as published by the Free Software Foundation,
-    either version 3 of the License, or (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+Magisk is licensed under the **GPL-3.0**. Cagisk is a derivative work and stays
+under the same license — see [LICENSE](LICENSE). If you redistribute it, keep
+the source available and keep the license intact.
