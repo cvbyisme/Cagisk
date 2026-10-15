@@ -1,6 +1,8 @@
 # Cagisk
 
-[![Build](https://github.com/cvbyisme/Magisk/actions/workflows/build.yml/badge.svg)](https://github.com/cvbyisme/Magisk/actions/workflows/build.yml)
+[![Build](https://github.com/cvbyisme/Cagisk/actions/workflows/build.yml/badge.svg)](https://github.com/cvbyisme/Cagisk/actions/workflows/build.yml)
+
+**Cagisk**（中文：Magisk 管理器主题美化版）— wallpaper backdrop, custom accent, translucent UI.
 
 Cagisk is a **themed build of the Magisk manager app**: same root solution, same
 modules, same Zygisk — with a manager you actually enjoy looking at.
@@ -30,7 +32,7 @@ utilities the app already ships.
 ## Install
 
 1. Grab the APK from the latest successful
-   [Actions run](https://github.com/cvbyisme/Magisk/actions/workflows/build.yml)
+   [Actions run](https://github.com/cvbyisme/Cagisk/actions/workflows/build.yml)
    (artifact `cagisk-apk-<sha>`), or build it yourself (see below).
 2. Install it. CI artifacts are **debug signed**, so they cannot update an
    official Magisk install — Cagisk is a separate package (`com.cvby.cagisk`)
@@ -84,8 +86,8 @@ Cagisk 是 **Magisk 管理器应用的主题增强版**：root 方案、模块�
   一起变透明，不会出现「有的透有的不透」。
 - **独立身份**：改名、换图标、包名换成 `com.cvby.cagisk`，可与官方 Magisk 共存。
 
-安装：到 [Actions](https://github.com/cvbyisme/Magisk/actions/workflows/build.yml)
-下载最新成功构建的 `cagisk-apk-<sha>` 产物安装即可（debug 签名，属独立版本）。
+安装：到 [Actions](https://github.com/cvbyisme/Cagisk/actions/workflows/build.yml)
+下载最新成功构建的 `cagisk-apk-<sha>` 产物安装即可，或直接取 [Releases](https://github.com/cvbyisme/Cagisk/releases) 里的包（debug 签名，属独立版本）。
 请配合本 fork 自带的 Magisk 二进制使用——`magiskd` 是按包名寻找管理器应用的。
 
 零新增第三方依赖：壁纸用系统解码器，取色复用应用本来就带的 Material 颜色工具。
