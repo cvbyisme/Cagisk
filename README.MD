@@ -14,6 +14,12 @@ John Wu, and it installs as `com.cvby.cagisk`.
 
 ## What is different
 
+<p align="center">
+  <img src="docs/images/settings.jpg" alt="Cagisk settings: wallpaper, custom accent and translucent UI" width="360">
+  <br>
+  <em>Wallpaper, accent and opacity applied across the whole UI — Settings → Customization → Theme customization.</em>
+</p>
+
 - **Wallpaper** — pick any image, keep it as the backdrop of the whole app,
   with a blur slider (Android 12+) and a legibility scrim.
 - **Custom accent** — choose one of the built-in swatches or let Cagisk derive
